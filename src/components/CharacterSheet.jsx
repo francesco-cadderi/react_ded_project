@@ -1,10 +1,10 @@
 const CharacterSheet = () => {
     return (
       <div className='col-12 col-md-8'>
-        <div className='bg-secondary container'>
+        <div className='container'>
           <div className='row'>
             <div className='col-6'>
-              <div className='row bg-warning p-4'>
+              <div className='row border rounded p-4 bg-light'>
                 <p className="text-center">Characteristics</p>
                 <div className="row">
                   <div className="col-4">
@@ -53,33 +53,44 @@ const CharacterSheet = () => {
                   </div>
                 </div>
               </div>
-              <div className='row bg-danger p-4'>
+              <div className='row border rounded p-4 mt-3 bg-light'>
                 <div className='col-6'>
                   <p className="text-center">AC</p>
                   <input className='cellInput form-control'></input>
                 </div>
                 <div className='col-6'>
                   <p className="text-center">Hit points</p>
-                  <input className='cellInput col-lg-4 col-lg-offset-4'></input>
+                  <input className='cellInput form-control'></input>
                 </div>
               </div>
             </div>
             <div className='col-6'>
-              <div className='row bg-primary'>
-                <p>Name</p>
-                <input></input>
+              <div className='form-control bg-light'>
+                <span>Name</span>
+                <input className="form-control"></input>
               </div>
-              <div className='row bg-info'>
-                <p>Weapons</p>
-                <input></input>
+              <div className='form-control mt-3 bg-light'>
+                <span>Weapons</span>
+                <select class="form-select">
+                  <option selected>None</option>
+                  <option value="1">Dagger</option>
+                  <option value="2">Sword</option>
+                  <option value="3">Axe</option>
+                  <option value="4">Bow</option>
+                </select>
               </div>
-              <div className='row bg-success'>
-                <p>Spells</p>
-                <input></input>
+              <div className='form-control mt-3 bg-light'>
+                <span>Spells</span>
+                <select class="form-select">
+                  <option selected>None</option>
+                  <option value="1">Fire bolt</option>
+                  <option value="2">Cure wounds</option>
+                  <option value="3">Charm monster</option>
+                </select>
               </div>
-              <div className='spacebetween'>
-                <button className='btn btn-sm btn-success'>salva</button>
-                <button className='btn btn-sm btn-danger'>cancella</button>
+              <div className="d-flex justify-content-end mt-5">
+                <button className='btn btn-success me-3 mt-5'>Save</button>
+                <button className='btn btn-danger mt-5'>Delete</button>
               </div>
             </div>
           </div>

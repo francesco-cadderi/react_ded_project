@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className='container'>
-      <div className='bg-secondary p-5 my-5'><h2 className="text-center">Monster's track</h2></div>
+      <div className='bg-light p-5 my-5'><h2 className="text-center">Monster's track</h2></div>
       <div className='row'>
         <CharacterSheet />
         <CharactersList />
