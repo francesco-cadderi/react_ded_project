@@ -5,6 +5,10 @@ const CharacterSheet = () => {
           <div className='row'>
             <div className='col-6'>
               <div className='row border rounded p-4 bg-light'>
+                <p className="text-center">Name</p>
+                <input className="form-control"></input>
+              </div>
+              <div className='row border rounded p-4 bg-light mt-3'>
                 <p className="text-center">Characteristics</p>
                 <div className="row">
                   <div className="col-4">
@@ -70,10 +74,6 @@ const CharacterSheet = () => {
             </div>
             <div className='col-6'>
               <div className='form-control bg-light'>
-                <p className="text-center">Name</p>
-                <input className="form-control"></input>
-              </div>
-              <div className='form-control mt-3 bg-light'>
                 <p className="text-center">Weapons</p>
                 <select className="form-select">
                   <option selected>None</option>
