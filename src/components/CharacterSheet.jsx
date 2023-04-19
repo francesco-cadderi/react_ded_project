@@ -76,7 +76,7 @@ const CharacterSheet = () => {
               <div className='form-control bg-light'>
                 <p className="text-center">Weapons</p>
                 <select className="form-select">
-                  <option selected>None</option>
+                  <option defaultValue>None</option>
                   <option value="1">Dagger</option>
                   <option value="2">Sword</option>
                   <option value="3">Axe</option>
@@ -90,7 +90,7 @@ const CharacterSheet = () => {
               <div className='form-control mt-3 bg-light'>
                 <p className="text-center">Spells</p>
                 <select className="form-select">
-                  <option selected>None</option>
+                  <option defaultValue>None</option>
                   <option value="1">Fire bolt</option>
                   <option value="2">Cure wounds</option>
                   <option value="3">Charm monster</option>

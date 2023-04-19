@@ -1,14 +1,11 @@
-const CharactersList = () => {
+const CharactersList = ({monstersNames}) => {
     return (
-        <div className='col-12 col-md-4 mt-3 mt-md-0'>
-            <ul class="list-group">
-            <li class="list-group-item text-bg-light text-center">Monster's list</li>
-            <li class="list-group-item">verrà</li>
-            <li class="list-group-item">stampato</li>
-            <li class="list-group-item">con il ciclo</li>
-            <li class="list-group-item">dei dati</li>
-            <li class="list-group-item">per adesso</li>
-            <li class="list-group-item">è solo un esempio</li>
+        <div className='col-12 col-md-4 mt-3 mt-md-0 border rounded p-4 bg-light mt-3'>
+            <p className="text-center">Weapons</p>
+            <ul className="list-group">
+                {monstersNames.length ? (monstersNames.map((name, index) => (
+                    <li key={index} className="list-group-item">{name.name}</li>
+                ))) : (<li className="list-group-item">No monster found</li>)}
             </ul>
         </div>
     )
