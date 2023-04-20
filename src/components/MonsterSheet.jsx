@@ -1,4 +1,4 @@
-const CharacterSheet = () => {
+const MonsterSheet = () => {
     return (
       <div className='col-12 col-md-8'>
         <div className='container'>
@@ -14,22 +14,22 @@ const CharacterSheet = () => {
                   <div className="col-4">
                     <span>STR</span>
                     <div className="row">
-                      <input className='cellInput form-control col-6'></input>
-                      <input className='cellInputMod form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>DEX</span>
                     <div className="row">
-                      <input className='cellInput form-control col-6'></input>
-                      <input className='cellInputMod form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
-                    <span>COS</span>
+                    <span>CON</span>
                     <div className="row">
-                      <input className='cellInput form-control col-6'></input>
-                      <input className='cellInputMod form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                 </div>
@@ -37,22 +37,22 @@ const CharacterSheet = () => {
                   <div className="col-4">
                     <span>INT</span>
                     <div className="row ">
-                      <input className='cellInput form-control col-6'></input>
-                      <input className='cellInputMod form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>WIS</span>
                     <div className="row">
-                      <input className='cellInput form-control col-6'></input>
-                      <input className='cellInputMod form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>CHA</span>
                     <div className="row">
-                      <input className='cellInput form-control col-6'></input>
-                      <input className='cellInputMod form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                 </div>
@@ -61,13 +61,13 @@ const CharacterSheet = () => {
                 <div className='col-6'>
                   <p className="text-center">AC</p>
                   <div className="d-flex justify-content-center">
-                    <input className='cellInput form-control'></input>
+                    <input maxLength="2" className='text-center cellInput form-control'></input>
                   </div>
                 </div>
                 <div className='col-6'>
-                  <p className="text-center">Hit points</p>
+                  <p className="text-center">HP</p>
                   <div className="d-flex justify-content-center">
-                    <input className='cellInput form-control'></input>
+                    <input maxLength="3" className='text-center cellInput form-control'></input>
                   </div>
                 </div>
               </div>
@@ -83,7 +83,8 @@ const CharacterSheet = () => {
                   <option value="4">Bow</option>
                 </select>
                 <div className="d-flex justify-content-end mt-2">
-                  <button className="btn btn-secondary">Add</button>
+                  <button className="btn btn-secondary me-3">Add</button>
+                  <button className="btn btn-secondary">Remove</button>
                 </div>
                 <textarea className="form-control mt-2" rows="3"></textarea>
               </div>
@@ -96,7 +97,8 @@ const CharacterSheet = () => {
                   <option value="3">Charm monster</option>
                 </select>
                 <div className="d-flex justify-content-end mt-2">
-                  <button className="btn btn-secondary">Add</button>
+                  <button className="btn btn-secondary me-3">Add</button>
+                  <button className="btn btn-secondary">Remove</button>
                 </div>
                 <textarea className="form-control mt-2" rows="3"></textarea>
               </div>
@@ -111,4 +113,4 @@ const CharacterSheet = () => {
     )
 }
 
-export default CharacterSheet;
+export default MonsterSheet;

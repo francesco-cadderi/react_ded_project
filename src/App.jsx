@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CharacterSheet from './components/CharacterSheet';
+import MonsterSheet from './components/MonsterSheet';
 import CharactersList from './components/CharactersList';
 
 
@@ -21,11 +21,15 @@ function App() {
 			.catch((err) => console.error(err));
 	}, []);
 
+  const showMonster = ()=>{
+      
+  }
+
   return (
     <div className='container'>
       <div className='bg-light rounded border p-5 my-5'><h2 className="text-center">Monster's track</h2></div>
       <div className='row'>
-        <CharacterSheet />
+        <MonsterSheet />
         <CharactersList monstersNames={monstersNames}/>
       </div>
     </div>
