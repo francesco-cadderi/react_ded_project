@@ -1,4 +1,4 @@
-const MonsterSheet = () => {
+const MonsterSheet = ({monsterData}) => {
     return (
       <div className='col-12 col-md-8'>
         <div className='container'>
@@ -6,7 +6,7 @@ const MonsterSheet = () => {
             <div className='col-6'>
               <div className='row border rounded p-4 bg-light'>
                 <p className="text-center">Name</p>
-                <input className="form-control"></input>
+                <input defaultValue={monsterData.name} className="form-control"></input>
               </div>
               <div className='row border rounded p-4 bg-light mt-3'>
                 <p className="text-center">Characteristics</p>
@@ -14,21 +14,21 @@ const MonsterSheet = () => {
                   <div className="col-4">
                     <span>STR</span>
                     <div className="row">
-                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input defaultValue={monsterData.str} maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>DEX</span>
                     <div className="row">
-                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input defaultValue={monsterData.dex} maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>CON</span>
                     <div className="row">
-                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input defaultValue={monsterData.con} maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
@@ -37,21 +37,21 @@ const MonsterSheet = () => {
                   <div className="col-4">
                     <span>INT</span>
                     <div className="row ">
-                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input defaultValue={monsterData.int} maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>WIS</span>
                     <div className="row">
-                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input defaultValue={monsterData.wis} maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>CHA</span>
                     <div className="row">
-                      <input maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input defaultValue={monsterData.cha} maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
@@ -61,13 +61,13 @@ const MonsterSheet = () => {
                 <div className='col-6'>
                   <p className="text-center">AC</p>
                   <div className="d-flex justify-content-center">
-                    <input maxLength="2" className='text-center cellInput form-control'></input>
+                    <input defaultValue={monsterData.AC} maxLength="2" className='text-center cellInput form-control'></input>
                   </div>
                 </div>
                 <div className='col-6'>
                   <p className="text-center">HP</p>
                   <div className="d-flex justify-content-center">
-                    <input maxLength="3" className='text-center cellInput form-control'></input>
+                    <input defaultValue={monsterData.HP} maxLength="3" className='text-center cellInput form-control'></input>
                   </div>
                 </div>
               </div>
@@ -86,7 +86,7 @@ const MonsterSheet = () => {
                   <button className="btn btn-secondary me-3">Add</button>
                   <button className="btn btn-secondary">Remove</button>
                 </div>
-                <textarea className="form-control mt-2" rows="3"></textarea>
+                <textarea  className="form-control mt-2" rows="3"></textarea>
               </div>
               <div className='form-control mt-3 bg-light'>
                 <p className="text-center">Spells</p>
