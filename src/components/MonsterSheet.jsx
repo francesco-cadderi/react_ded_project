@@ -1,12 +1,32 @@
-const MonsterSheet = ({monsterData}) => {
-    return (
-      <div className='col-12 col-md-8'>
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+
+const MonsterSheet = ({currentMonster}) => {
+
+  const { register, handleSubmit, setValue, formState: {errors} } = useForm({mode: "all"});
+
+  useEffect(() => {
+    if(currentMonster.id) {
+        setValue("name", currentMonster.name);
+        setValue("str", currentMonster.str);
+        setValue("dex", currentMonster.dex);
+        setValue("con", currentMonster.con);
+        setValue("int", currentMonster.int);
+        setValue("wis", currentMonster.wis);
+        setValue("cha", currentMonster.cha);
+        setValue("ac", currentMonster.AC);
+        setValue("hp", currentMonster.HP);
+    }
+  }, [currentMonster.id])
+
+  return (
+      <form className='col-12 col-md-8'>
         <div className='container'>
           <div className='row'>
             <div className='col-6'>
               <div className='row border rounded p-4 bg-light'>
                 <p className="text-center">Name</p>
-                <input defaultValue={monsterData.name} className="form-control"></input>
+                <input {...register("name", { required: 'Field "name" is required'})} id="name" className="form-control"></input>
               </div>
               <div className='row border rounded p-4 bg-light mt-3'>
                 <p className="text-center">Characteristics</p>
@@ -14,21 +34,21 @@ const MonsterSheet = ({monsterData}) => {
                   <div className="col-4">
                     <span>STR</span>
                     <div className="row">
-                      <input defaultValue={monsterData.str} maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("str", { required: 'Field "name" is required'})} id="str" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>DEX</span>
                     <div className="row">
-                      <input defaultValue={monsterData.dex} maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("dex", { required: 'Field "name" is required'})} id="dex" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>CON</span>
                     <div className="row">
-                      <input defaultValue={monsterData.con} maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("con", { required: 'Field "name" is required'})} id="con" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
@@ -37,21 +57,21 @@ const MonsterSheet = ({monsterData}) => {
                   <div className="col-4">
                     <span>INT</span>
                     <div className="row ">
-                      <input defaultValue={monsterData.int} maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("int", { required: 'Field "name" is required'})} id="int" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>WIS</span>
                     <div className="row">
-                      <input defaultValue={monsterData.wis} maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("wis", { required: 'Field "name" is required'})} id="wis" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
                   <div className="col-4">
                     <span>CHA</span>
                     <div className="row">
-                      <input defaultValue={monsterData.cha} maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("cha", { required: 'Field "name" is required'})} id="cha" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
                     </div>
                   </div>
@@ -61,13 +81,13 @@ const MonsterSheet = ({monsterData}) => {
                 <div className='col-6'>
                   <p className="text-center">AC</p>
                   <div className="d-flex justify-content-center">
-                    <input defaultValue={monsterData.AC} maxLength="2" className='text-center cellInput form-control'></input>
+                    <input {...register("ac", { required: 'Field "name" is required'})} id="ac" maxLength="2" className='text-center cellInput form-control'></input>
                   </div>
                 </div>
                 <div className='col-6'>
                   <p className="text-center">HP</p>
                   <div className="d-flex justify-content-center">
-                    <input defaultValue={monsterData.HP} maxLength="3" className='text-center cellInput form-control'></input>
+                    <input {...register("hp", { required: 'Field "name" is required'})} id="hp" maxLength="3" className='text-center cellInput form-control'></input>
                   </div>
                 </div>
               </div>
@@ -109,8 +129,8 @@ const MonsterSheet = ({monsterData}) => {
             </div>
           </div>
         </div>
-      </div>
-    )
+      </form>
+  )
 }
 
 export default MonsterSheet;
