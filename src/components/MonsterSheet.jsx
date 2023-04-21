@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+
 
 const MonsterSheet = ({currentMonster}) => {
 
   const { register, handleSubmit, setValue, formState: {errors} } = useForm({mode: "all"});
+
+  const [monsterWeapons, setMonsterWeapons] = useState([]);
 
   useEffect(() => {
     if(currentMonster.id) {
@@ -35,21 +38,21 @@ const MonsterSheet = ({currentMonster}) => {
                     <span>STR</span>
                     <div className="row">
                       <input {...register("str", { required: 'Field "name" is required'})} id="str" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
+                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((currentMonster.str - 10) /2)}</span>}
                     </div>
                   </div>
                   <div className="col-4">
                     <span>DEX</span>
                     <div className="row">
                       <input {...register("dex", { required: 'Field "name" is required'})} id="dex" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
+                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((currentMonster.dex - 10) /2)}</span>}
                     </div>
                   </div>
                   <div className="col-4">
                     <span>CON</span>
                     <div className="row">
                       <input {...register("con", { required: 'Field "name" is required'})} id="con" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
+                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((currentMonster.con - 10) /2)}</span>}
                     </div>
                   </div>
                 </div>
@@ -58,21 +61,21 @@ const MonsterSheet = ({currentMonster}) => {
                     <span>INT</span>
                     <div className="row ">
                       <input {...register("int", { required: 'Field "name" is required'})} id="int" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
+                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((currentMonster.int - 10) /2)}</span>}
                     </div>
                   </div>
                   <div className="col-4">
                     <span>WIS</span>
                     <div className="row">
                       <input {...register("wis", { required: 'Field "name" is required'})} id="wis" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
+                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((currentMonster.wis - 10) /2)}</span>}
                     </div>
                   </div>
                   <div className="col-4">
                     <span>CHA</span>
                     <div className="row">
                       <input {...register("cha", { required: 'Field "name" is required'})} id="cha" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      <input maxLength="2" className='text-center cellInputMod form-control col-6'></input>
+                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((currentMonster.cha - 10) /2)}</span>}
                     </div>
                   </div>
                 </div>
@@ -106,7 +109,7 @@ const MonsterSheet = ({currentMonster}) => {
                   <button className="btn btn-secondary me-3">Add</button>
                   <button className="btn btn-secondary">Remove</button>
                 </div>
-                <textarea  className="form-control mt-2" rows="3"></textarea>
+                <textarea  {...register("weapons")} className="form-control mt-2" rows="3"></textarea>
               </div>
               <div className='form-control mt-3 bg-light'>
                 <p className="text-center">Spells</p>
