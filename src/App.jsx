@@ -5,6 +5,7 @@ import MonstersList from './components/MonstersList';
 
 function App() {
 
+  //fetch del nome e id mostro
   const [monstersNames, setMonstersNames] = useState([]);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ function App() {
     .catch((err) => console.error(err));
 	}, []);
 
-  //fetch di tutti i dati del singolo mostro. Mostro i dati
+  //fetch di tutti i dati del singolo mostro
   const [currentMonster, setCurrentMonster] = useState([]);
 
   const showMonster = (monsters) =>{
@@ -35,6 +36,7 @@ function App() {
     })
     .catch((err) => console.error(err));
   }
+
 
   return (
     <div className='container'>
