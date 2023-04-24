@@ -6,16 +6,16 @@ import MonstersList from './components/MonstersList';
 function App() {
 
   //fetch del nome e id mostro
-  const [monstersNames, setMonstersNames] = useState([]);
+  const [dataAtLoading, setDataAtLoading] = useState([]);
 
   useEffect(() => {
-		fetch("http://127.0.0.1:8000/api/name_list", {
+		fetch("http://127.0.0.1:8000/api/loading_data", {
 			method: "GET",
 		})
     .then((res) => res.json())
     .then((data) => {
       if (data) {
-        setMonstersNames(data);
+        setDataAtLoading(data);
       }
     })
     .catch((err) => console.error(err));
@@ -43,7 +43,7 @@ function App() {
       <div className='bg-light rounded border p-5 my-5'><h2 className="text-center">Monster's track</h2></div>
       <div className='row'>
         <MonsterSheet currentMonster={currentMonster}/>
-        <MonstersList monstersNames={monstersNames} showMonster={showMonster}/>
+        <MonstersList dataAtLoading={dataAtLoading} showMonster={showMonster}/>
       </div>
     </div>
   )

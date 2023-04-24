@@ -6,8 +6,7 @@ const MonsterSheet = ({currentMonster}) => {
 
   const { register, handleSubmit, setValue, watch, formState: {errors} } = useForm({mode: "all"});
 
-  //funzione di riduzione quantità armi
-  const [monsterWeapons, setMonsterWeapons] = useState([]);
+  const [currentWeapon, setCurrentWeapon] = useState([]);
 
   useEffect(() => {
     if(currentMonster.id) {
@@ -20,26 +19,25 @@ const MonsterSheet = ({currentMonster}) => {
         setValue("cha", currentMonster.cha);
         setValue("ac", currentMonster.AC);
         setValue("hp", currentMonster.HP);
-        setMonsterWeapons(currentMonster.weapons);
+        setCurrentWeapon(currentMonster.weapons);
     }
   }, [currentMonster.id])
 
   
 
   
-
+  //funzione di riduzione quantità armi
   const counterNumberWeapon = (weaponID, weaponQNT)=>{
-    let weaponToReduce = monsterWeapons.findIndex((weapon)=>{return weapon.id === weaponID})
-    monsterWeapons[weaponToReduce].pivot.quantity -= 1;
-    setMonsterWeapons([].concat(monsterWeapons));
+    let weaponToReduce = currentWeapon.findIndex((weapon)=>{return weapon.id === weaponID})
+    currentWeapon[weaponToReduce].pivot.quantity -= 1;
+    setCurrentWeapon([].concat(currentWeapon));
 
   }
 
   const renderList =()=>{
-    console.log("monsterweapons", monsterWeapons);
     return( <>
       {
-        monsterWeapons.map((monsterWeapon, index) => {
+        currentWeapon.map((monsterWeapon, index) => {
           let elementList = (
             <div key={index} className="d-flex justify-content-end mb-1">
               <li className="form-control">x{monsterWeapon.pivot.quantity} {monsterWeapon.name} {monsterWeapon.damage}</li>
@@ -50,6 +48,14 @@ const MonsterSheet = ({currentMonster}) => {
         )
       }
       </>)
+  }
+
+  //controllo l'arma selezionata nella select
+  const [selectedWeapon, setSelectedWeapon] = useState("");
+  console.log(selectedWeapon);
+
+  const addWeapon = (weaponID)=>{
+    console.log(weaponID);
   }
 
 
@@ -130,24 +136,17 @@ const MonsterSheet = ({currentMonster}) => {
             </div>
             <div className='col-6'>
               <div className='form-control bg-light'>
-                <p className="text-center">Weapons</p>
-                <select className="form-select">
+                <p className="text-center">currentWeapon</p>
+                <select id="arma" onChange={(e) => setSelectedWeapon(e.target.value)} className="form-select">
                   <option defaultValue>None</option>
                   <option value="1">Dagger</option>
                   <option value="2">Sword</option>
                   <option value="3">Axe</option>
-                  <option value="4">Bow</option>
                 </select>
                 <div className="d-flex justify-content-end mt-2">
-                  <button className="btn btn-secondary mb-2">Add</button>
+                  <button onClick={()=>addWeapon(currentWeapon.id)} className="btn btn-secondary mb-2">Add</button>
                 </div>
-
-
-
-                {monsterWeapons.length>0 ?  renderList() : (<li className="form-control">No weapons equiped</li>)}
-
-
-
+                {currentWeapon.length>0 ?  renderList() : (<li className="form-control">No weapons equiped</li>)}
               </div>
               <div className='form-control mt-3 bg-light'>
                 <p className="text-center">Spells</p>
