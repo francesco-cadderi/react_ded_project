@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-
-const MonsterSheet = ({currentMonster}) => {
+const MonsterSheet = ({currentMonster, dataAtLoading, weaponsAtLoading}) => {
 
   const { register, handleSubmit, setValue, watch, formState: {errors} } = useForm({mode: "all"});
 
@@ -23,17 +22,14 @@ const MonsterSheet = ({currentMonster}) => {
     }
   }, [currentMonster.id])
 
-  
-
-  
   //funzione di riduzione quantità armi
-  const counterNumberWeapon = (weaponID, weaponQNT)=>{
+  const counterNumberWeapon = (weaponID)=>{
     let weaponToReduce = currentWeapon.findIndex((weapon)=>{return weapon.id === weaponID})
     currentWeapon[weaponToReduce].pivot.quantity -= 1;
     setCurrentWeapon([].concat(currentWeapon));
-
   }
 
+  //stampo lista armi
   const renderList =()=>{
     return( <>
       {
@@ -52,14 +48,22 @@ const MonsterSheet = ({currentMonster}) => {
 
   //controllo l'arma selezionata nella select
   const [selectedWeapon, setSelectedWeapon] = useState("");
-  console.log(selectedWeapon);
 
-  const addWeapon = (weaponID)=>{
-    console.log(weaponID);
+  //aggiungo arma
+  const addWeapon = ()=>{
+    currentWeapon.map((monsterWeapon) => {
+      if (selectedWeapon == monsterWeapon.id) {
+        currentWeapon[monsterWeapon.id -1].pivot.quantity += 1;
+        setCurrentWeapon([].concat(currentWeapon));
+        console.log("if");
+      }
+      else {
+        var selectedWeaponInt = Number(selectedWeapon);
+        console.log("3.id", weaponsAtLoading[selectedWeaponInt-1]);
+        //setCurrentWeapon([].concat(weaponsAtLoading[selectedWeaponInt-1]));
+      }
+    })
   }
-
-
-  
 
   return (
       <form className='col-12 col-md-8'>
@@ -139,12 +143,12 @@ const MonsterSheet = ({currentMonster}) => {
                 <p className="text-center">currentWeapon</p>
                 <select id="arma" onChange={(e) => setSelectedWeapon(e.target.value)} className="form-select">
                   <option defaultValue>None</option>
-                  <option value="1">Dagger</option>
-                  <option value="2">Sword</option>
-                  <option value="3">Axe</option>
+                  {(weaponsAtLoading.map((weaponName, index) => (
+                    <option key={index} value={weaponName.id}>{weaponName.name}</option>
+                  )))}
                 </select>
                 <div className="d-flex justify-content-end mt-2">
-                  <button onClick={()=>addWeapon(currentWeapon.id)} className="btn btn-secondary mb-2">Add</button>
+                  <button type="button" onClick={()=>addWeapon()} className="btn btn-secondary mb-2">Add</button>
                 </div>
                 {currentWeapon.length>0 ?  renderList() : (<li className="form-control">No weapons equiped</li>)}
               </div>

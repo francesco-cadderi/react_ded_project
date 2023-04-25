@@ -21,6 +21,22 @@ function App() {
     .catch((err) => console.error(err));
 	}, []);
 
+  //fetch delle armi nelle select
+  const [weaponsAtLoading, setWeaponsAtLoading] = useState([]);
+
+  useEffect(() => {
+		fetch("http://127.0.0.1:8000/api/loading_weapons", {
+			method: "GET",
+		})
+    .then((res) => res.json())
+    .then((data) => {
+      if (data) {
+        setWeaponsAtLoading(data);
+      }
+    })
+    .catch((err) => console.error(err));
+	}, []);
+
   //fetch di tutti i dati del singolo mostro
   const [currentMonster, setCurrentMonster] = useState([]);
 
@@ -42,7 +58,7 @@ function App() {
     <div className='container'>
       <div className='bg-light rounded border p-5 my-5'><h2 className="text-center">Monster's track</h2></div>
       <div className='row'>
-        <MonsterSheet currentMonster={currentMonster}/>
+        <MonsterSheet weaponsAtLoading={weaponsAtLoading} currentMonster={currentMonster}/>
         <MonstersList dataAtLoading={dataAtLoading} showMonster={showMonster}/>
       </div>
     </div>
