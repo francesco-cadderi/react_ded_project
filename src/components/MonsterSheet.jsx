@@ -51,18 +51,24 @@ const MonsterSheet = ({currentMonster, dataAtLoading, weaponsAtLoading}) => {
 
   //aggiungo arma
   const addWeapon = ()=>{
-    currentWeapon.map((monsterWeapon) => {
+
+    var selectedWeaponInt = Number(selectedWeapon);
+      console.log("weaponsAtLoading[selectedWeaponInt-1]", weaponsAtLoading[selectedWeaponInt-1]);
+      console.log("currentWeapon", currentWeapon);
+      console.log("weaponsAtLoading", weaponsAtLoading);
+
+      //setCurrentWeapon([].concat(weaponsAtLoading[selectedWeaponInt-1]));
+
+    /* currentWeapon.map((monsterWeapon) => {
       if (selectedWeapon == monsterWeapon.id) {
         currentWeapon[monsterWeapon.id -1].pivot.quantity += 1;
         setCurrentWeapon([].concat(currentWeapon));
         console.log("if");
       }
       else {
-        var selectedWeaponInt = Number(selectedWeapon);
-        console.log("3.id", weaponsAtLoading[selectedWeaponInt-1]);
-        //setCurrentWeapon([].concat(weaponsAtLoading[selectedWeaponInt-1]));
+        
       }
-    })
+    }) */ 
   }
 
   return (
