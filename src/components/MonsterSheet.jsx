@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const MonsterSheet = ({currentMonster, dataAtLoading, weaponsAtLoading}) => {
+const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
 
-  const { register, handleSubmit, setValue, watch, formState: {errors} } = useForm({mode: "all"});
+  const { register, setValue, watch} = useForm({mode: "all"});
 
   const [currentWeapon, setCurrentWeapon] = useState([]);
+
+  const [currentSpells, setCurrentSpells] = useState([]);
 
   useEffect(() => {
     if(currentMonster.id) {
@@ -18,15 +20,27 @@ const MonsterSheet = ({currentMonster, dataAtLoading, weaponsAtLoading}) => {
         setValue("cha", currentMonster.cha);
         setValue("ac", currentMonster.AC);
         setValue("hp", currentMonster.HP);
-        setCurrentWeapon(currentMonster.weapons);
+        setCurrentWeapon(currentMonster.weapons.map(w => {
+          return ({id: w.id, quantity: w.pivot.quantity})
+        }));
+        setCurrentSpells(currentMonster.spells);
     }
   }, [currentMonster.id])
 
   //funzione di riduzione quantità armi
   const counterNumberWeapon = (weaponID)=>{
     let weaponToReduce = currentWeapon.findIndex((weapon)=>{return weapon.id === weaponID})
-    currentWeapon[weaponToReduce].pivot.quantity -= 1;
+    currentWeapon[weaponToReduce].quantity -= 1;
     setCurrentWeapon([].concat(currentWeapon));
+  }
+
+  const getWeaponData = (weaponID) => {
+    const weapon = weaponsAtLoading.find(weapon => weapon.id === weaponID);
+    if(weapon) {
+      return weapon;
+    } else {
+      return 'Data not found';
+    }
   }
 
   //stampo lista armi
@@ -36,8 +50,8 @@ const MonsterSheet = ({currentMonster, dataAtLoading, weaponsAtLoading}) => {
         currentWeapon.map((monsterWeapon, index) => {
           let elementList = (
             <div key={index} className="d-flex justify-content-end mb-1">
-              <li className="form-control">x{monsterWeapon.pivot.quantity} {monsterWeapon.name} {monsterWeapon.damage}</li>
-              <button type="button" onClick={()=>counterNumberWeapon(monsterWeapon.id, monsterWeapon.pivot.quantity)} className="btn btn-secondary">X</button>
+              <li className="form-control">{getWeaponData(monsterWeapon.id).name} ({getWeaponData(monsterWeapon.id).damage}) x{monsterWeapon.quantity}</li>
+              <button type="button" onClick={()=>counterNumberWeapon(monsterWeapon.id, monsterWeapon.quantity)} className="btn btn-secondary">X</button>
             </div>
           )
           return elementList}
@@ -51,24 +65,18 @@ const MonsterSheet = ({currentMonster, dataAtLoading, weaponsAtLoading}) => {
 
   //aggiungo arma
   const addWeapon = ()=>{
-
-    var selectedWeaponInt = Number(selectedWeapon);
-      console.log("weaponsAtLoading[selectedWeaponInt-1]", weaponsAtLoading[selectedWeaponInt-1]);
-      console.log("currentWeapon", currentWeapon);
-      console.log("weaponsAtLoading", weaponsAtLoading);
-
-      //setCurrentWeapon([].concat(weaponsAtLoading[selectedWeaponInt-1]));
-
-    /* currentWeapon.map((monsterWeapon) => {
-      if (selectedWeapon == monsterWeapon.id) {
-        currentWeapon[monsterWeapon.id -1].pivot.quantity += 1;
-        setCurrentWeapon([].concat(currentWeapon));
-        console.log("if");
+    setCurrentWeapon(prevCurrentWeapon => {
+        const updCurrentWeapons = [...prevCurrentWeapon];
+        const updWeaponIndex = updCurrentWeapons.findIndex(weapon => parseInt(selectedWeapon) === weapon.id);
+        if(updWeaponIndex !== -1) {
+          updCurrentWeapons[updWeaponIndex].quantity += 0.5;
+        } else {
+          const weaponObj = weaponsAtLoading.find(w => w.id === parseInt(selectedWeapon));
+          updCurrentWeapons.push({id: weaponObj.id, quantity: 1})
+        }
+        return updCurrentWeapons;
       }
-      else {
-        
-      }
-    }) */ 
+    )
   }
 
   return (
@@ -146,7 +154,7 @@ const MonsterSheet = ({currentMonster, dataAtLoading, weaponsAtLoading}) => {
             </div>
             <div className='col-6'>
               <div className='form-control bg-light'>
-                <p className="text-center">currentWeapon</p>
+                <p className="text-center">Wapons</p>
                 <select id="arma" onChange={(e) => setSelectedWeapon(e.target.value)} className="form-select">
                   <option defaultValue>None</option>
                   {(weaponsAtLoading.map((weaponName, index) => (
@@ -162,16 +170,17 @@ const MonsterSheet = ({currentMonster, dataAtLoading, weaponsAtLoading}) => {
                 <p className="text-center">Spells</p>
                 <select className="form-select">
                   <option defaultValue>None</option>
-                  <option value="1">Fire bolt</option>
-                  <option value="2">Cure wounds</option>
-                  <option value="3">Charm monster</option>
+                  {(spellsAtLoading.map((spellName, index) => (
+                    <option key={index} value={spellName.id}>{spellName.name}</option>
+                  )))}
                 </select>
                 <div className="d-flex justify-content-end mt-2">
-                  <button className="btn btn-secondary me-3">Add</button>
-                  <button className="btn btn-secondary">Remove</button>
+                  <button className="btn btn-secondary mb-2">Add</button>
                 </div>
-
-                <textarea className="form-control mt-2" rows="3"></textarea>
+                {currentSpells.map((monsterSpell, index) => (
+                  <div key={index} className="d-flex justify-content-end mb-1"><li className="form-control">{monsterSpell.name}</li></div>
+                ))}
+                
               </div>
               <div className="d-flex justify-content-end mt-5">
                 <button className='btn btn-success me-3'>Save</button>

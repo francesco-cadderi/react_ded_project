@@ -11,6 +11,9 @@ function App() {
   useEffect(() => {
 		fetch("http://127.0.0.1:8000/api/loading_data", {
 			method: "GET",
+      headers: {
+        Accept: "application/json"
+      }
 		})
     .then((res) => res.json())
     .then((data) => {
@@ -37,6 +40,22 @@ function App() {
     .catch((err) => console.error(err));
 	}, []);
 
+  //fetch degli incantesimi nella select
+  const [spellsAtLoading, setSpellsAtLoading] = useState([]);
+
+  useEffect(() => {
+		fetch("http://127.0.0.1:8000/api/loading_spells", {
+			method: "GET",
+		})
+    .then((res) => res.json())
+    .then((data) => {
+      if (data) {
+        setSpellsAtLoading(data);
+      }
+    })
+    .catch((err) => console.error(err));
+	}, []);
+
   //fetch di tutti i dati del singolo mostro
   const [currentMonster, setCurrentMonster] = useState([]);
 
@@ -58,7 +77,7 @@ function App() {
     <div className='container'>
       <div className='bg-light rounded border p-5 my-5'><h2 className="text-center">Monster's track</h2></div>
       <div className='row'>
-        <MonsterSheet weaponsAtLoading={weaponsAtLoading} currentMonster={currentMonster}/>
+        <MonsterSheet weaponsAtLoading={weaponsAtLoading} spellsAtLoading={spellsAtLoading} currentMonster={currentMonster}/>
         <MonstersList dataAtLoading={dataAtLoading} showMonster={showMonster}/>
       </div>
     </div>
