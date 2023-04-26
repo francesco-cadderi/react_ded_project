@@ -43,23 +43,6 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
     }
   }
 
-  //stampo lista armi
-  const renderList =()=>{
-    return( <>
-      {
-        currentWeapon.map((monsterWeapon, index) => {
-          let elementList = (
-            <div key={index} className="d-flex justify-content-end mb-1">
-              <li className="form-control">{getWeaponData(monsterWeapon.id).name} ({getWeaponData(monsterWeapon.id).damage}) x{monsterWeapon.quantity}</li>
-              <button type="button" onClick={()=>counterNumberWeapon(monsterWeapon.id, monsterWeapon.quantity)} className="btn btn-secondary">X</button>
-            </div>
-          )
-          return elementList}
-        )
-      }
-      </>)
-  }
-
   //controllo l'arma selezionata nella select
   const [selectedWeapon, setSelectedWeapon] = useState("");
 
@@ -79,6 +62,11 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
     )
   }
 
+  //funzione di cancellazione spell
+  const deleteSpells = (spellID)=>{
+    setCurrentSpells(currentSpells.splice(currentSpells.findIndex(item => item.id === spellID), 1))
+  }
+
   return (
       <form className='col-12 col-md-8'>
         <div className='container'>
@@ -86,7 +74,7 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
             <div className='col-6'>
               <div className='row border rounded p-4 bg-light'>
                 <p className="text-center">Name</p>
-                <input {...register("name", { required: 'Field "name" is required'})} id="name" className="form-control"></input>
+                <input {...register("name")} id="name" className="form-control"></input>
               </div>
               <div className='row border rounded p-4 bg-light mt-3'>
                 <p className="text-center">Characteristics</p>
@@ -94,21 +82,21 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
                   <div className="col-4">
                     <span>STR</span>
                     <div className="row">
-                      <input {...register("str", { required: 'Field "name" is required'})} id="str" maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("str")} id="str" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("str") - 10) /2)}</span>}
                     </div>
                   </div>
                   <div className="col-4">
                     <span>DEX</span>
                     <div className="row">
-                      <input {...register("dex", { required: 'Field "name" is required'})} id="dex" maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("dex")} id="dex" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("dex") - 10) /2)}</span>}
                     </div>
                   </div>
                   <div className="col-4">
                     <span>CON</span>
                     <div className="row">
-                      <input {...register("con", { required: 'Field "name" is required'})} id="con" maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("con")} id="con" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("con") - 10) /2)}</span>}
                     </div>
                   </div>
@@ -117,21 +105,21 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
                   <div className="col-4">
                     <span>INT</span>
                     <div className="row ">
-                      <input {...register("int", { required: 'Field "name" is required'})} id="int" maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("int")} id="int" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("int")- 10) /2)}</span>}
                     </div>
                   </div>
                   <div className="col-4">
                     <span>WIS</span>
                     <div className="row">
-                      <input {...register("wis", { required: 'Field "name" is required'})} id="wis" maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("wis")} id="wis" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("wis") - 10) /2)}</span>}
                     </div>
                   </div>
                   <div className="col-4">
                     <span>CHA</span>
                     <div className="row">
-                      <input {...register("cha", { required: 'Field "name" is required'})} id="cha" maxLength="2" className='text-center cellInput form-control col-6'></input>
+                      <input {...register("cha")} id="cha" maxLength="2" className='text-center cellInput form-control col-6'></input>
                       {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("cha") - 10) /2)}</span>}
                     </div>
                   </div>
@@ -141,13 +129,13 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
                 <div className='col-6'>
                   <p className="text-center">AC</p>
                   <div className="d-flex justify-content-center">
-                    <input {...register("ac", { required: 'Field "name" is required'})} id="ac" maxLength="2" className='text-center cellInput form-control'></input>
+                    <input {...register("ac")} id="ac" maxLength="2" className='text-center cellInput form-control'></input>
                   </div>
                 </div>
                 <div className='col-6'>
                   <p className="text-center">HP</p>
                   <div className="d-flex justify-content-center">
-                    <input {...register("hp", { required: 'Field "name" is required'})} id="hp" maxLength="3" className='text-center cellInput form-control'></input>
+                    <input {...register("hp")} id="hp" maxLength="3" className='text-center cellInput form-control'></input>
                   </div>
                 </div>
               </div>
@@ -164,7 +152,12 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
                 <div className="d-flex justify-content-end mt-2">
                   <button type="button" onClick={()=>addWeapon()} className="btn btn-secondary mb-2">Add</button>
                 </div>
-                {currentWeapon.length>0 ?  renderList() : (<li className="form-control">No weapons equiped</li>)}
+                {currentWeapon.length>0 ? currentWeapon.map((monsterWeapon, index) => (
+                <div
+                  key={index} className="d-flex justify-content-end mb-1"><li className="form-control">{getWeaponData(monsterWeapon.id).name} ({getWeaponData(monsterWeapon.id).damage}) x{monsterWeapon.quantity}</li>
+                  <button type="button" onClick={()=>counterNumberWeapon(monsterWeapon.id, monsterWeapon.quantity)} className="btn btn-secondary">X</button>
+                </div>
+                )) : (<li className="form-control">No weapons equiped</li>)}
               </div>
               <div className='form-control mt-3 bg-light'>
                 <p className="text-center">Spells</p>
@@ -178,7 +171,10 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
                   <button className="btn btn-secondary mb-2">Add</button>
                 </div>
                 {currentSpells.map((monsterSpell, index) => (
-                  <div key={index} className="d-flex justify-content-end mb-1"><li className="form-control">{monsterSpell.name}</li></div>
+                  <div
+                    key={index} className="d-flex justify-content-end mb-1"><li className="form-control">{monsterSpell.name}</li>
+                    <button type="button" onClick={()=>deleteSpells(monsterSpell.id)} className="btn btn-secondary">X</button>
+                  </div>
                 ))}
                 
               </div>
