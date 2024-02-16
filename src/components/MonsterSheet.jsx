@@ -47,12 +47,12 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
   const [selectedWeapon, setSelectedWeapon] = useState("");
 
   //aggiungo arma
-  const addWeapon = ()=>{
+  const addWeapon = () => {
     setCurrentWeapon(prevCurrentWeapon => {
         const updCurrentWeapons = [...prevCurrentWeapon];
         const updWeaponIndex = updCurrentWeapons.findIndex(weapon => parseInt(selectedWeapon) === weapon.id);
         if(updWeaponIndex !== -1) {
-          updCurrentWeapons[updWeaponIndex].quantity += 0.5;
+          updCurrentWeapons[updWeaponIndex].quantity += 1;
         } else {
           const weaponObj = weaponsAtLoading.find(w => w.id === parseInt(selectedWeapon));
           updCurrentWeapons.push({id: weaponObj.id, quantity: 1})
@@ -67,6 +67,15 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
     setCurrentSpells(currentSpells.splice(currentSpells.findIndex(item => item.id === spellID), 1))
   }
 
+  const characteristics = [
+    { id: 'str', label: 'STR' },
+    { id: 'dex', label: 'DEX' },
+    { id: 'con', label: 'CON' },
+    { id: 'int', label: 'INT' },
+    { id: 'wis', label: 'WIS' },
+    { id: 'cha', label: 'CHA' },
+  ];
+
   return (
       <form className='col-12 col-md-8'>
         <div className='container'>
@@ -76,55 +85,18 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
                 <p className="text-center">Name</p>
                 <input {...register("name")} id="name" className="form-control"></input>
               </div>
-              <div className='row border rounded p-4 bg-light mt-3'>
-                <p className="text-center">Characteristics</p>
-                <div className="row">
-                  <div className="col-4">
-                    <span>STR</span>
-                    <div className="row">
-                      <input {...register("str")} id="str" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("str") - 10) /2)}</span>}
+                <div className='row border rounded p-4 bg-light mt-3'>
+                  <p className="text-center">Characteristics</p>
+                  {characteristics.map(({ id, label }) => (
+                    <div className="col-4" key={id}>
+                      <span>{label}</span>
+                      <div className="row">
+                        <input {...register(id)} id={id} maxLength="2" className='text-center cellInput form-control col-6'></input>
+                        {currentMonster.id && <span className='text-center col-6 mt-2'>{Math.floor((watch(id) - 10) / 2)}</span>}
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-4">
-                    <span>DEX</span>
-                    <div className="row">
-                      <input {...register("dex")} id="dex" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("dex") - 10) /2)}</span>}
-                    </div>
-                  </div>
-                  <div className="col-4">
-                    <span>CON</span>
-                    <div className="row">
-                      <input {...register("con")} id="con" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("con") - 10) /2)}</span>}
-                    </div>
-                  </div>
+                  ))}
                 </div>
-                <div className="row">
-                  <div className="col-4">
-                    <span>INT</span>
-                    <div className="row ">
-                      <input {...register("int")} id="int" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("int")- 10) /2)}</span>}
-                    </div>
-                  </div>
-                  <div className="col-4">
-                    <span>WIS</span>
-                    <div className="row">
-                      <input {...register("wis")} id="wis" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("wis") - 10) /2)}</span>}
-                    </div>
-                  </div>
-                  <div className="col-4">
-                    <span>CHA</span>
-                    <div className="row">
-                      <input {...register("cha")} id="cha" maxLength="2" className='text-center cellInput form-control col-6'></input>
-                      {currentMonster.id && <span  className='text-center col-6 mt-2'>{ Math.floor((watch("cha") - 10) /2)}</span>}
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div className='row border rounded p-4 mt-3 bg-light'>
                 <div className='col-6'>
                   <p className="text-center">AC</p>
@@ -152,12 +124,17 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
                 <div className="d-flex justify-content-end mt-2">
                   <button type="button" onClick={()=>addWeapon()} className="btn btn-secondary mb-2">Add</button>
                 </div>
-                {currentWeapon.length>0 ? currentWeapon.map((monsterWeapon, index) => (
-                <div
-                  key={index} className="d-flex justify-content-end mb-1"><li className="form-control">{getWeaponData(monsterWeapon.id).name} ({getWeaponData(monsterWeapon.id).damage}) x{monsterWeapon.quantity}</li>
-                  <button type="button" onClick={()=>counterNumberWeapon(monsterWeapon.id, monsterWeapon.quantity)} className="btn btn-secondary">X</button>
-                </div>
-                )) : (<li className="form-control">No weapons equiped</li>)}
+                {currentWeapon.length > 0 ? currentWeapon.map((monsterWeapon, index) => {
+                  if(monsterWeapon.quantity <= 0) {
+                    return null;
+                  }
+                  return (
+                    <div key={index} className="d-flex justify-content-end mb-1">
+                      <li className="form-control">{getWeaponData(monsterWeapon.id).name} ({getWeaponData(monsterWeapon.id).damage}) x{monsterWeapon.quantity}</li>
+                      <button type="button" onClick={()=>counterNumberWeapon(monsterWeapon.id, monsterWeapon.quantity)} className="btn btn-secondary">X</button>
+                    </div>
+                  );
+                  }) : (<li className="form-control">No weapons equiped</li>)}
               </div>
               <div className='form-control mt-3 bg-light'>
                 <p className="text-center">Spells</p>

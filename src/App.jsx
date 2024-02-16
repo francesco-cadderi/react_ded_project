@@ -59,8 +59,8 @@ function App() {
   //fetch di tutti i dati del singolo mostro
   const [currentMonster, setCurrentMonster] = useState([]);
 
-  const showMonster = (monsters) =>{
-    fetch(`http://127.0.0.1:8000/api/monsters/${monsters}`, {
+  const showMonster = (monsterID) =>{
+    fetch(`http://127.0.0.1:8000/api/monsters/${monsterID}`, {
 			method: "GET",
 		})
     .then((res) => res.json())
