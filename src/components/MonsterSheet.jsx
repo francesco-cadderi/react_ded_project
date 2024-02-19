@@ -5,7 +5,7 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
 
   const { register, setValue, watch} = useForm({mode: "all"});
 
-  const [currentWeapon, setCurrentWeapon] = useState([]);
+  const [currentWeapons, setCurrentWeapons] = useState([]);
 
   const [currentSpells, setCurrentSpells] = useState([]);
 
@@ -20,51 +20,74 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
         setValue("cha", currentMonster.cha);
         setValue("ac", currentMonster.AC);
         setValue("hp", currentMonster.HP);
-        setCurrentWeapon(currentMonster.weapons.map(w => {
+        setCurrentWeapons(currentMonster.weapons.map(w => {
           return ({id: w.id, quantity: w.pivot.quantity})
         }));
-        setCurrentSpells(currentMonster.spells);
+        setCurrentSpells(currentMonster.spells.map(s => {
+          return ({id: s.id, quantity: s.pivot.quantity})
+        }));
     }
   }, [currentMonster.id])
 
-  //funzione di riduzione quantità armi
-  const counterNumberWeapon = (weaponID)=>{
-    let weaponToReduce = currentWeapon.findIndex((weapon)=>{return weapon.id === weaponID})
-    currentWeapon[weaponToReduce].quantity -= 1;
-    setCurrentWeapon([].concat(currentWeapon));
-  }
-
-  const getWeaponData = (weaponID) => {
-    const weapon = weaponsAtLoading.find(weapon => weapon.id === weaponID);
-    if(weapon) {
-      return weapon;
+  //funzione di riduzione quantità armi/incantesimi
+  const counterNumber = (id, currentItems, setCurrentItems) => {
+    const itemToReduce = currentItems.findIndex(item => item.id === id);
+    if (currentItems[itemToReduce].quantity <= 1) {
+      currentItems[itemToReduce].quantity = 0;
+      currentItems.splice(itemToReduce, 1);
     } else {
-      return 'Data not found';
+      currentItems[itemToReduce].quantity -= 1;
     }
+    setCurrentItems([].concat(currentItems));
   }
-
-  //controllo l'arma selezionata nella select
+  
+  const counterNumberWeapon = (weaponID) => {
+    counterNumber(weaponID, currentWeapons, setCurrentWeapons);
+  }
+  
+  const counterNumberSpells = (spellID) => {
+    counterNumber(spellID, currentSpells, setCurrentSpells);
+  }
+  
+  //funzione ottenimento dati armi/incantesimi
+  const getData = (id, dataAtLoading) => {
+    const item = dataAtLoading.find(item => item.id === id);
+    return item ? item : 'Data not found';
+  }
+  
+  const getWeaponData = (weaponID) => {
+    return getData(weaponID, weaponsAtLoading);
+  }
+  
+  const getSpellData = (spellID) => {
+    return getData(spellID, spellsAtLoading);
+  }
+  
+  //aggiungo arma/incantesimo
   const [selectedWeapon, setSelectedWeapon] = useState("");
 
-  //aggiungo arma
-  const addWeapon = () => {
-    setCurrentWeapon(prevCurrentWeapon => {
-        const updCurrentWeapons = [...prevCurrentWeapon];
-        const updWeaponIndex = updCurrentWeapons.findIndex(weapon => parseInt(selectedWeapon) === weapon.id);
-        if(updWeaponIndex !== -1) {
-          updCurrentWeapons[updWeaponIndex].quantity += 1;
-        } else {
-          const weaponObj = weaponsAtLoading.find(w => w.id === parseInt(selectedWeapon));
-          updCurrentWeapons.push({id: weaponObj.id, quantity: 1})
-        }
-        return updCurrentWeapons;
-      }
-    )
-  }
+  const [selectedSpells, setSelectedSpells] = useState("");
 
-  //funzione di cancellazione spell
-  const deleteSpells = (spellID)=>{
-    setCurrentSpells(currentSpells.splice(currentSpells.findIndex(item => item.id === spellID), 1))
+  const addItem = (selectedItem, currentItems, setCurrentItems, itemsAtLoading) => {
+    setCurrentItems(prevCurrentItems => {
+      const updCurrentItems = [...prevCurrentItems];
+      const updItemIndex = updCurrentItems.findIndex(item => parseInt(selectedItem) === item.id);
+      if(updItemIndex !== -1) {
+        updCurrentItems[updItemIndex].quantity += 1;
+      } else {
+        const itemObj = itemsAtLoading.find(w => w.id === parseInt(selectedItem));
+        updCurrentItems.push({id: itemObj.id, quantity: 1})
+      }
+      return updCurrentItems;
+    });
+  }
+  
+  const addWeapon = () => {
+    addItem(selectedWeapon, currentWeapons, setCurrentWeapons, weaponsAtLoading);
+  }
+  
+  const addSpell = () => {
+    addItem(selectedSpells, currentSpells, setCurrentSpells, spellsAtLoading);
   }
 
   const characteristics = [
@@ -115,19 +138,16 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
             <div className='col-6'>
               <div className='form-control bg-light'>
                 <p className="text-center">Wapons</p>
-                <select id="arma" onChange={(e) => setSelectedWeapon(e.target.value)} className="form-select">
+                <select className="form-select" id="arma" onChange={(e) => setSelectedWeapon(e.target.value)}>
                   <option defaultValue>None</option>
                   {(weaponsAtLoading.map((weaponName, index) => (
                     <option key={index} value={weaponName.id}>{weaponName.name}</option>
                   )))}
                 </select>
                 <div className="d-flex justify-content-end mt-2">
-                  <button type="button" onClick={()=>addWeapon()} className="btn btn-secondary mb-2">Add</button>
+                  <button type="button" className="btn btn-secondary mb-2" onClick={()=>addWeapon()}>Add</button>
                 </div>
-                {currentWeapon.length > 0 ? currentWeapon.map((monsterWeapon, index) => {
-                  if(monsterWeapon.quantity <= 0) {
-                    return null;
-                  }
+                {currentWeapons.length > 0 ? currentWeapons.map((monsterWeapon, index) => {
                   return (
                     <div key={index} className="d-flex justify-content-end mb-1">
                       <li className="form-control">{getWeaponData(monsterWeapon.id).name} ({getWeaponData(monsterWeapon.id).damage}) x{monsterWeapon.quantity}</li>
@@ -138,22 +158,21 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
               </div>
               <div className='form-control mt-3 bg-light'>
                 <p className="text-center">Spells</p>
-                <select className="form-select">
+                <select className="form-select" id="incantesimo" onChange={(e) => setSelectedSpells(e.target.value)}>
                   <option defaultValue>None</option>
                   {(spellsAtLoading.map((spellName, index) => (
                     <option key={index} value={spellName.id}>{spellName.name}</option>
                   )))}
                 </select>
                 <div className="d-flex justify-content-end mt-2">
-                  <button className="btn btn-secondary mb-2">Add</button>
+                  <button type="button" className="btn btn-secondary mb-2" onClick={()=>addSpell()}>Add</button>
                 </div>
-                {currentSpells.map((monsterSpell, index) => (
-                  <div
-                    key={index} className="d-flex justify-content-end mb-1"><li className="form-control">{monsterSpell.name}</li>
-                    <button type="button" onClick={()=>deleteSpells(monsterSpell.id)} className="btn btn-secondary">X</button>
+                {currentSpells.length > 0 ? currentSpells.map((monsterSpell, index) => (
+                  <div key={index} className="d-flex justify-content-end mb-1">
+                    <li className="form-control">{getSpellData(monsterSpell.id).name} x{monsterSpell.quantity}</li>
+                    <button type="button" onClick={()=>counterNumberSpells(monsterSpell.id, monsterSpell.quantity)} className="btn btn-secondary">X</button>
                   </div>
-                ))}
-                
+                )): (<li className="form-control">No spell ready</li>)}  
               </div>
               <div className="d-flex justify-content-end mt-5">
                 <button className='btn btn-success me-3'>Save</button>
