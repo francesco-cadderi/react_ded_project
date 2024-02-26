@@ -8,3 +8,9 @@
   height:40px;
   margin: 0.1rem;
 }
+
+input[type=number].noArrow::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+-webkit-appearance: none; 
+ margin: 0; 
+}

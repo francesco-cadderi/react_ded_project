@@ -72,12 +72,37 @@ function App() {
     .catch((err) => console.error(err));
   }
 
+  //aggiorno db
+  /* const updMonster = (updatedMonster) => {
+    setCurrentMonster(updatedMonster);
+    fetch(`http://127.0.0.1:8000/api/monsters/${monsterID}`, {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(user),
+    })
+    .then(res => res.json())
+    .then(data => {
+      if(data) {
+        // rimpiazzo l'utente aggiornato dopo la modifica all'interno dello state locale
+        setUsers(prevUsers => {
+          return prevUsers.map(prevUser => prevUser.id === id ? updatedMonster : prevUser)
+        })
+      }
+    })
+    .catch(err => console.error(err))
+  } */
 
   return (
     <div className='container'>
       <div className='bg-light rounded border p-5 my-5'><h2 className="text-center">Monster's track</h2></div>
       <div className='row'>
-        <MonsterSheet weaponsAtLoading={weaponsAtLoading} spellsAtLoading={spellsAtLoading} currentMonster={currentMonster}/>
+        <MonsterSheet weaponsAtLoading={weaponsAtLoading} 
+                      spellsAtLoading={spellsAtLoading} 
+                      currentMonster={currentMonster}
+                      setCurrentMonster={setCurrentMonster}
+        />
         <MonstersList dataAtLoading={dataAtLoading} showMonster={showMonster}/>
       </div>
     </div>

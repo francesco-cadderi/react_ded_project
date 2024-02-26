@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
+const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading, setCurrentMonster}) => {
 
   const { register, setValue, watch} = useForm({mode: "all"});
 
@@ -90,13 +90,20 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
     addItem(selectedSpells, currentSpells, setCurrentSpells, spellsAtLoading);
   }
 
+  //update form
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => console.log("value:", value, "name:", name, "type:",type));
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
+
   const characteristics = [
-    { id: 'str', label: 'STR' },
-    { id: 'dex', label: 'DEX' },
-    { id: 'con', label: 'CON' },
-    { id: 'int', label: 'INT' },
-    { id: 'wis', label: 'WIS' },
-    { id: 'cha', label: 'CHA' },
+    { name: 'str', label: 'STR' },
+    { name: 'dex', label: 'DEX' },
+    { name: 'con', label: 'CON' },
+    { name: 'int', label: 'INT' },
+    { name: 'wis', label: 'WIS' },
+    { name: 'cha', label: 'CHA' },
   ];
 
   return (
@@ -110,12 +117,17 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading}) => {
               </div>
                 <div className='row border rounded p-4 bg-light mt-3'>
                   <p className="text-center">Characteristics</p>
-                  {characteristics.map(({ id, label }) => (
-                    <div className="col-4" key={id}>
+                  {characteristics.map(({ name, label }) => (
+                    <div className="col-4" key={name}>
                       <span>{label}</span>
                       <div className="row">
-                        <input {...register(id)} id={id} maxLength="2" className='text-center cellInput form-control col-6'></input>
-                        {currentMonster.id && <span className='text-center col-6 mt-2'>{Math.floor((watch(id) - 10) / 2)}</span>}
+                        <input {...register(name)}
+                              name={name}
+                              id={name} maxLength="2"
+                              type="number"
+                              className='noArrow text-center cellInput form-control col-6'>
+                        </input>
+                        {currentMonster.id && <span className='text-center col-6 mt-2'>{Math.floor((watch(name) - 10) / 2)}</span>}
                       </div>
                     </div>
                   ))}
