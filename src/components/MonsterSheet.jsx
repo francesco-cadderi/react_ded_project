@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading, setCurrentMonster}) => {
+const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading, setCurrentMonster, deleteMonster}) => {
 
   const { register, setValue, watch} = useForm({mode: "all"});
 
@@ -96,6 +96,11 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading, setCur
     return () => subscription.unsubscribe();
   }, [watch]);
 
+  //delete mostro
+  const handleClick = () => {
+    deleteMonster(currentMonster.id);
+  };
+  
 
   const characteristics = [
     { name: 'str', label: 'STR' },
@@ -188,7 +193,7 @@ const MonsterSheet = ({currentMonster, weaponsAtLoading, spellsAtLoading, setCur
               </div>
               <div className="d-flex justify-content-end mt-5">
                 <button className='btn btn-success me-3'>Save</button>
-                <button className='btn btn-danger'>Delete</button>
+                <button className='btn btn-danger' onClick={handleClick}>Delete</button>
               </div>
             </div>
           </div>

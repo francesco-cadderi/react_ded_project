@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import MonsterSheet from './components/MonsterSheet';
 import MonstersList from './components/MonstersList';
 
-
 function App() {
 
   //fetch del nome e id mostro
@@ -72,6 +71,22 @@ function App() {
     .catch((err) => console.error(err));
   }
 
+  //cancello mostro dal db
+  const deleteMonster = (id) => {
+    console.log("ID è: ", id);
+		/* fetch(`http://127.0.0.1:8000/api/dlt_monster/${monsterID}`, {
+			method: 'DELETE',
+		})
+    .then(console.log(monsterID))
+    .then((res) => res.json())
+    .then((data) => {
+      if (data) {
+        setDataAtLoading(data);
+      }
+    })
+    .catch((err) => console.error(err)); */
+	};
+
   //aggiorno db
   /* const updMonster = (updatedMonster) => {
     setCurrentMonster(updatedMonster);
@@ -102,8 +117,11 @@ function App() {
                       spellsAtLoading={spellsAtLoading} 
                       currentMonster={currentMonster}
                       setCurrentMonster={setCurrentMonster}
+                      deleteMonster={deleteMonster}
         />
-        <MonstersList dataAtLoading={dataAtLoading} showMonster={showMonster}/>
+        <MonstersList dataAtLoading={dataAtLoading} 
+                      showMonster={showMonster}
+        />
       </div>
     </div>
   )
